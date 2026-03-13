@@ -74,31 +74,40 @@ def home():
     """
     return html_content
 
+
 @app.route('/mcp', methods=['GET', 'POST', 'OPTIONS'])
 def mcp_endpoint():
+
     if request.method == 'GET':
         return jsonify({
             "serverInfo": {
                 "name": "Axedraxos Agent Server",
-                "version": "1.0.0"
+                "version": "1.0.0",
+                "website": "https://axedraxos-api.vercel.app"
             },
             "tools": [
-                {"name": "data_analysis", "description": "Good tool to check data", "inputSchema": { "type": "object", "properties": {} }},
-                {"name": "chart_generation", "description": "Easy tool to make charts", "inputSchema": { "type": "object", "properties": {} }},
-                {"name": "trend_detection", "description": "Fast tool to find trends", "inputSchema": { "type": "object", "properties": {} }},
-                {"name": "anomaly_detection", "description": "Tool to find bad data", "inputSchema": { "type": "object", "properties": {} }},
-                {"name": "forecast_model", "description": "Tool to predict the future", "inputSchema": { "type": "object", "properties": {} }}
+                {"name": "data_analysis", "description": "Tool for data analysis", "inputSchema": {"type": "object","properties": {}}},
+                {"name": "chart_generation", "description": "Tool to generate charts", "inputSchema": {"type": "object","properties": {}}},
+                {"name": "trend_detection", "description": "Tool to detect trends", "inputSchema": {"type": "object","properties": {}}},
+                {"name": "anomaly_detection", "description": "Tool to detect anomalies", "inputSchema": {"type": "object","properties": {}}},
+                {"name": "forecast_model", "description": "Tool for predictive forecasting", "inputSchema": {"type": "object","properties": {}}}
             ],
             "prompts": [
-                {"name": "analyze_data", "description": "Simple prompt to check data", "arguments": []},
-                {"name": "generate_report", "description": "Simple prompt to make report", "arguments": []}
+                {"name": "analyze_data","description": "Prompt to analyze dataset","arguments": []},
+                {"name": "generate_report","description": "Prompt to generate report","arguments": []}
             ],
             "resources": [
-                {"name": "Main dataset file", "uri": "file:///dataset", "description": "Main dataset file", "mimeType": "application/json"}
+                {
+                    "name": "Main dataset",
+                    "uri": "file:///dataset",
+                    "description": "Primary dataset resource",
+                    "mimeType": "application/json"
+                }
             ]
         })
 
     if request.method == 'POST':
+
         req_data = request.get_json(silent=True) or {}
         req_id = req_data.get("id", 1)
         method = req_data.get("method", "")
@@ -109,23 +118,23 @@ def mcp_endpoint():
                 "id": req_id,
                 "result": {
                     "tools": [
-                        {"name": "data_analysis", "description": "Good tool to check data", "inputSchema": { "type": "object", "properties": {} }},
-                        {"name": "chart_generation", "description": "Easy tool to make charts", "inputSchema": { "type": "object", "properties": {} }},
-                        {"name": "trend_detection", "description": "Fast tool to find trends", "inputSchema": { "type": "object", "properties": {} }},
-                        {"name": "anomaly_detection", "description": "Tool to find bad data", "inputSchema": { "type": "object", "properties": {} }},
-                        {"name": "forecast_model", "description": "Tool to predict the future", "inputSchema": { "type": "object", "properties": {} }}
+                        {"name": "data_analysis","description": "Tool for data analysis","inputSchema": {"type": "object","properties": {}}},
+                        {"name": "chart_generation","description": "Tool to generate charts","inputSchema": {"type": "object","properties": {}}},
+                        {"name": "trend_detection","description": "Tool to detect trends","inputSchema": {"type": "object","properties": {}}},
+                        {"name": "anomaly_detection","description": "Tool to detect anomalies","inputSchema": {"type": "object","properties": {}}},
+                        {"name": "forecast_model","description": "Tool for predictive forecasting","inputSchema": {"type": "object","properties": {}}}
                     ]
                 }
             })
-        
+
         elif method == "prompts/list":
             return jsonify({
                 "jsonrpc": "2.0",
                 "id": req_id,
                 "result": {
                     "prompts": [
-                        {"name": "analyze_data", "description": "Simple prompt to check data", "arguments": []},
-                        {"name": "generate_report", "description": "Simple prompt to make report", "arguments": []}
+                        {"name": "analyze_data","description": "Prompt to analyze dataset","arguments": []},
+                        {"name": "generate_report","description": "Prompt to generate report","arguments": []}
                     ]
                 }
             })
@@ -136,7 +145,7 @@ def mcp_endpoint():
                 "id": req_id,
                 "result": {
                     "resources": [
-                        {"name": "Main dataset file", "uri": "file:///dataset", "description": "Main dataset file", "mimeType": "application/json"}
+                        {"name": "Main dataset","uri": "file:///dataset","description": "Primary dataset","mimeType": "application/json"}
                     ]
                 }
             })
@@ -149,7 +158,8 @@ def mcp_endpoint():
                     "protocolVersion": "2024-11-05",
                     "serverInfo": {
                         "name": "Axedraxos Agent Server",
-                        "version": "1.0.0"
+                        "version": "1.0.0",
+                        "website": "https://axedraxos-api.vercel.app"
                     },
                     "capabilities": {
                         "prompts": {},
@@ -159,31 +169,41 @@ def mcp_endpoint():
                 }
             })
 
-@app.route('/.well-known/agent-card.json', methods=['GET', 'OPTIONS'])
+
+@app.route('/.well-known/agent-card.json', methods=['GET','OPTIONS'])
 def a2a_endpoint():
+
     return jsonify({
+        "id": "axedraxos",
         "name": "axedraxos",
         "version": "1.0.0",
         "description": "Axedraxos AI analytics and data intelligence agent.",
+        "website": "https://axedraxos-api.vercel.app",
+        "url": "https://axedraxos-api.vercel.app",
         "skills": [
-            {"name": "Text Generation", "description": "Skill to write text", "category": "nlp/text_generation"},
-            {"name": "Contextual Comprehension", "description": "Skill to understand text", "category": "nlp/contextual_comprehension"},
-            {"name": "Workflow Automation", "description": "Skill to automate work", "category": "automation/workflow_automation"},
-            {"name": "Conversational AI", "description": "Skill to chat with users", "category": "nlp/conversational_ai"}
+            {"name": "Text Generation","description": "Generate human-like text","category": "nlp/text_generation"},
+            {"name": "Contextual Comprehension","description": "Understand contextual information","category": "nlp/contextual_comprehension"},
+            {"name": "Workflow Automation","description": "Automate processes and tasks","category": "automation/workflow_automation"},
+            {"name": "Conversational AI","description": "Interactive conversational responses","category": "nlp/conversational_ai"}
         ]
     })
 
-@app.route('/oasf', methods=['GET', 'OPTIONS'])
+
+@app.route('/oasf', methods=['GET','OPTIONS'])
 def oasf_endpoint():
+
     return jsonify({
+        "id": "axedraxos",
         "name": "axedraxos",
         "version": "v0.8.0",
-        "description": "Open Agent Semantic Framework endpoint for Axedraxos.",
+        "description": "Main endpoint for Axedraxos AI analytics and data intelligence services",
+        "website": "https://axedraxos-api.vercel.app",
+        "protocols": ["mcp","a2a"],
         "skills": [
-            {"name": "nlp/text_generation", "type": "cognitive"},
-            {"name": "nlp/contextual_comprehension", "type": "cognitive"},
-            {"name": "automation/workflow_automation", "type": "operational"},
-            {"name": "nlp/conversational_ai", "type": "cognitive"}
+            {"name": "nlp/text_generation","type": "cognitive"},
+            {"name": "nlp/contextual_comprehension","type": "cognitive"},
+            {"name": "automation/workflow_automation","type": "operational"},
+            {"name": "nlp/conversational_ai","type": "cognitive"}
         ],
         "domains": [
             "ai/machine_learning/deep_learning",
@@ -191,6 +211,9 @@ def oasf_endpoint():
             "data_science/experimentation",
             "software_engineering/api_integration",
             "software_engineering/web_development"
-        ],
-        "protocols": ["mcp", "a2a"]
+        ]
     })
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
