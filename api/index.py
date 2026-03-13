@@ -12,6 +12,7 @@ def add_cors(response):
 def after_request(response):
     return add_cors(response)
 
+
 @app.route('/')
 def home():
     html_content = """
@@ -75,99 +76,93 @@ def home():
     return html_content
 
 
+# dataset endpoint untuk resource MCP
+@app.route('/dataset')
+def dataset():
+    return jsonify({
+        "dataset": "sample dataset",
+        "description": "Example dataset resource for Axedraxos AI"
+    })
+
+
 @app.route('/mcp', methods=['GET', 'POST', 'OPTIONS'])
 def mcp_endpoint():
 
+    server_info = {
+        "name": "Axedraxos Agent Server",
+        "version": "1.0.0",
+        "website": "https://axedraxos-api.vercel.app",
+        "description": "AI analytics and forecasting agent operating on Base network"
+    }
+
+    tools = [
+        {"name": "data_analysis", "description": "Tool for data analysis", "inputSchema": {"type": "object","properties": {}}},
+        {"name": "chart_generation", "description": "Tool to generate charts", "inputSchema": {"type": "object","properties": {}}},
+        {"name": "trend_detection", "description": "Tool to detect trends", "inputSchema": {"type": "object","properties": {}}},
+        {"name": "anomaly_detection", "description": "Tool to detect anomalies", "inputSchema": {"type": "object","properties": {}}},
+        {"name": "forecast_model", "description": "Tool for predictive forecasting", "inputSchema": {"type": "object","properties": {}}}
+    ]
+
+    prompts = [
+        {"name": "analyze_data","description": "Prompt to analyze dataset","arguments": []},
+        {"name": "generate_report","description": "Prompt to generate report","arguments": []}
+    ]
+
+    resources = [
+        {
+            "name": "dataset",
+            "uri": "https://axedraxos-api.vercel.app/dataset",
+            "description": "Primary dataset resource",
+            "mimeType": "application/json"
+        }
+    ]
+
+
     if request.method == 'GET':
         return jsonify({
-            "serverInfo": {
-                "name": "Axedraxos Agent Server",
-                "version": "1.0.0",
-                "website": "https://axedraxos-api.vercel.app"
-            },
-            "tools": [
-                {"name": "data_analysis", "description": "Tool for data analysis", "inputSchema": {"type": "object","properties": {}}},
-                {"name": "chart_generation", "description": "Tool to generate charts", "inputSchema": {"type": "object","properties": {}}},
-                {"name": "trend_detection", "description": "Tool to detect trends", "inputSchema": {"type": "object","properties": {}}},
-                {"name": "anomaly_detection", "description": "Tool to detect anomalies", "inputSchema": {"type": "object","properties": {}}},
-                {"name": "forecast_model", "description": "Tool for predictive forecasting", "inputSchema": {"type": "object","properties": {}}}
-            ],
-            "prompts": [
-                {"name": "analyze_data","description": "Prompt to analyze dataset","arguments": []},
-                {"name": "generate_report","description": "Prompt to generate report","arguments": []}
-            ],
-            "resources": [
-                {
-                    "name": "Main dataset",
-                    "uri": "file:///dataset",
-                    "description": "Primary dataset resource",
-                    "mimeType": "application/json"
-                }
-            ]
+            "protocolVersion": "2024-11-05",
+            "serverInfo": server_info,
+            "tools": tools,
+            "prompts": prompts,
+            "resources": resources
         })
 
-    if request.method == 'POST':
 
-        req_data = request.get_json(silent=True) or {}
-        req_id = req_data.get("id", 1)
-        method = req_data.get("method", "")
+    req_data = request.get_json(silent=True) or {}
+    req_id = req_data.get("id", 1)
+    method = req_data.get("method", "")
 
-        if method == "tools/list":
-            return jsonify({
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "tools": [
-                        {"name": "data_analysis","description": "Tool for data analysis","inputSchema": {"type": "object","properties": {}}},
-                        {"name": "chart_generation","description": "Tool to generate charts","inputSchema": {"type": "object","properties": {}}},
-                        {"name": "trend_detection","description": "Tool to detect trends","inputSchema": {"type": "object","properties": {}}},
-                        {"name": "anomaly_detection","description": "Tool to detect anomalies","inputSchema": {"type": "object","properties": {}}},
-                        {"name": "forecast_model","description": "Tool for predictive forecasting","inputSchema": {"type": "object","properties": {}}}
-                    ]
-                }
-            })
 
-        elif method == "prompts/list":
-            return jsonify({
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "prompts": [
-                        {"name": "analyze_data","description": "Prompt to analyze dataset","arguments": []},
-                        {"name": "generate_report","description": "Prompt to generate report","arguments": []}
-                    ]
-                }
-            })
+    if method == "tools/list":
 
-        elif method == "resources/list":
-            return jsonify({
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "resources": [
-                        {"name": "Main dataset","uri": "file:///dataset","description": "Primary dataset","mimeType": "application/json"}
-                    ]
-                }
-            })
+        result = {"tools": tools}
 
-        else:
-            return jsonify({
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "protocolVersion": "2024-11-05",
-                    "serverInfo": {
-                        "name": "Axedraxos Agent Server",
-                        "version": "1.0.0",
-                        "website": "https://axedraxos-api.vercel.app"
-                    },
-                    "capabilities": {
-                        "prompts": {},
-                        "resources": {},
-                        "tools": {}
-                    }
-                }
-            })
+    elif method == "prompts/list":
+
+        result = {"prompts": prompts}
+
+    elif method == "resources/list":
+
+        result = {"resources": resources}
+
+    else:
+
+        result = {
+            "protocolVersion": "2024-11-05",
+            "serverInfo": server_info,
+            "capabilities": {
+                "tools": {},
+                "prompts": {},
+                "resources": {}
+            }
+        }
+
+
+    return jsonify({
+        "jsonrpc": "2.0",
+        "id": req_id,
+        "result": result
+    })
 
 
 @app.route('/.well-known/agent-card.json', methods=['GET','OPTIONS'])
@@ -180,6 +175,14 @@ def a2a_endpoint():
         "description": "Axedraxos AI analytics and data intelligence agent.",
         "website": "https://axedraxos-api.vercel.app",
         "url": "https://axedraxos-api.vercel.app",
+
+        "documentation_url": "https://axedraxos-api.vercel.app",
+
+        "provider": {
+            "organization": "Axedraxos Labs",
+            "url": "https://axedraxos-api.vercel.app"
+        },
+
         "skills": [
             {"name": "Text Generation","description": "Generate human-like text","category": "nlp/text_generation"},
             {"name": "Contextual Comprehension","description": "Understand contextual information","category": "nlp/contextual_comprehension"},
@@ -198,13 +201,23 @@ def oasf_endpoint():
         "version": "v0.8.0",
         "description": "Main endpoint for Axedraxos AI analytics and data intelligence services",
         "website": "https://axedraxos-api.vercel.app",
+
         "protocols": ["mcp","a2a"],
+
+        "capabilities": [
+            "data_analysis",
+            "trend_detection",
+            "forecasting",
+            "automation"
+        ],
+
         "skills": [
             {"name": "nlp/text_generation","type": "cognitive"},
             {"name": "nlp/contextual_comprehension","type": "cognitive"},
             {"name": "automation/workflow_automation","type": "operational"},
             {"name": "nlp/conversational_ai","type": "cognitive"}
         ],
+
         "domains": [
             "ai/machine_learning/deep_learning",
             "data_science/data_collection",
