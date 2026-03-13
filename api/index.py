@@ -14,7 +14,65 @@ def after_request(response):
 
 @app.route('/')
 def home():
-    return "Main endpoint for Axedraxos AI analytics"
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Axedraxos AI</title>
+        <style>
+            body {
+                background-color: #0d1117;
+                color: #c9d1d9;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .container {
+                text-align: center;
+                padding: 50px;
+                border: 1px solid #30363d;
+                border-radius: 15px;
+                background-color: #161b22;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+                max-width: 500px;
+            }
+            h1 {
+                color: #58a6ff;
+                margin-bottom: 10px;
+            }
+            p {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #8b949e;
+                margin-bottom: 30px;
+            }
+            .status-badge {
+                padding: 8px 16px;
+                background-color: #238636;
+                color: #ffffff;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: bold;
+                display: inline-block;
+                border: 1px solid #2ea043;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Axedraxos AI</h1>
+            <p>Advanced data analytics and intelligent forecasting agent on the Base network.</p>
+            <div class="status-badge">🟢 System Online & Healthy</div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_content
 
 @app.route('/mcp', methods=['GET', 'POST', 'OPTIONS'])
 def mcp_endpoint():
@@ -120,11 +178,12 @@ def oasf_endpoint():
     return jsonify({
         "name": "axedraxos",
         "version": "v0.8.0",
+        "description": "Open Agent Semantic Framework endpoint for Axedraxos.",
         "skills": [
-            "nlp/text_generation",
-            "nlp/contextual_comprehension",
-            "automation/workflow_automation",
-            "nlp/conversational_ai"
+            {"name": "nlp/text_generation", "type": "cognitive"},
+            {"name": "nlp/contextual_comprehension", "type": "cognitive"},
+            {"name": "automation/workflow_automation", "type": "operational"},
+            {"name": "nlp/conversational_ai", "type": "cognitive"}
         ],
         "domains": [
             "ai/machine_learning/deep_learning",
@@ -132,5 +191,6 @@ def oasf_endpoint():
             "data_science/experimentation",
             "software_engineering/api_integration",
             "software_engineering/web_development"
-        ]
+        ],
+        "protocols": ["mcp", "a2a"]
     })
