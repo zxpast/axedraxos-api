@@ -48,7 +48,7 @@ def home():
         <div class="container">
             <h1>Axedraxos AI</h1>
             <p>Smart AI agent for easy data analysis. It helps you understand datasets, make charts, and forecast trends fast on the Base network.</p>
-            <div class="status-badge">🟢 System Online & Healthy (Rank 1 Configuration + X402)</div>
+            <div class="status-badge">🟢 System Online & Healthy</div>
         </div>
     </body>
     </html>
@@ -108,7 +108,7 @@ def a2a_endpoint():
         "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
         "active": True,
         "x402support": True,
-        "image": "https://blob.8004scan.app/b7597dafb29bcf15b6fec7bcdbe62e88f59032742e587a42889c831c1ab615c5.jpg", # <-- INI KUNCI COMPLIANCE NAIK
+        "image": "https://blob.8004scan.app/b7597dafb29bcf15b6fec7bcdbe62e88f59032742e587a42889c831c1ab615c5.jpg", 
         "tags": [
             "AI",
             "autonomous",
@@ -117,11 +117,11 @@ def a2a_endpoint():
             "crypto",
             "data_analysis"
         ],
-        "skills": [
-            "data_analysis",
-            "chart_generation",
-            "trend_forecasting",
-            "on_chain_analytics"
+        "skills": [ # <-- INI YANG KITA PERBAIKI BIAR NGGAK UNKNOWN
+            "data_science/data_analysis",
+            "visualization/chart_generation",
+            "finance/trend_forecasting",
+            "technology/on_chain_analytics"
         ],
         "domains": [
             "decentralized_finance",
