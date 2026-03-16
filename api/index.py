@@ -117,11 +117,12 @@ def a2a_endpoint():
             "crypto",
             "data_analysis"
         ],
-        "skills": [ # <-- INI YANG KITA PERBAIKI BIAR NGGAK UNKNOWN
-            "data_science/data_analysis",
-            "visualization/chart_generation",
-            "finance/trend_forecasting",
-            "technology/on_chain_analytics"
+        # --- INI DIA KUNCI JAWABAN DARI AERODROPX ---
+        "skills": [
+            {"name": "Data Analysis", "description": "Analyze raw data", "category": "data_science/data_analysis"},
+            {"name": "Chart Generation", "description": "Create visual charts", "category": "visualization/chart_generation"},
+            {"name": "Trend Forecasting", "description": "Predict future trends", "category": "finance/trend_forecasting"},
+            {"name": "On-Chain Analytics", "description": "Analyze blockchain data", "category": "technology/on_chain_analytics"}
         ],
         "domains": [
             "decentralized_finance",
