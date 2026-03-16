@@ -48,7 +48,7 @@ def home():
         <div class="container">
             <h1>Axedraxos AI</h1>
             <p>Smart AI agent for easy data analysis. It helps you understand datasets, make charts, and forecast trends fast on the Base network.</p>
-            <div class="status-badge">🟢 System Online & Healthy (Rank 1 Configuration)</div>
+            <div class="status-badge">🟢 System Online & Healthy (Rank 1 Configuration + X402)</div>
         </div>
     </body>
     </html>
@@ -100,13 +100,14 @@ def mcp_endpoint():
 
     return jsonify({"jsonrpc": "2.0", "id": req_id, "result": result})
 
-# --- 3. ENDPOINT A2A (METADATA SUPER LENGKAP ALA RANK 1) ---
+# --- 3. ENDPOINT A2A (METADATA DOUBLE KILL + X402) ---
 @app.route('/.well-known/agent-card.json', methods=['GET','OPTIONS'])
 def a2a_endpoint():
     return jsonify({
         "name": "axedraxos",
         "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
         "active": True,
+        "x402support": True, # <-- INI DIA SUNTIKAN DOUBLE KILL-NYA
         "tags": [
             "AI",
             "autonomous",
