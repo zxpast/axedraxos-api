@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import time
 
 app = Flask(__name__)
 
@@ -24,50 +25,29 @@ def home():
         <title>Axedraxos AI Agent</title>
         <style>
             body {
-                background-color: #0d1117;
-                color: #c9d1d9;
+                background-color: #0d1117; color: #c9d1d9;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
+                display: flex; justify-content: center; align-items: center;
+                height: 100vh; margin: 0;
             }
             .container {
-                text-align: center;
-                padding: 50px;
-                border: 1px solid #30363d;
-                border-radius: 15px;
-                background-color: #161b22;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                max-width: 500px;
+                text-align: center; padding: 50px; border: 1px solid #30363d;
+                border-radius: 15px; background-color: #161b22;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.5); max-width: 500px;
             }
-            h1 {
-                color: #58a6ff;
-                margin-bottom: 10px;
-            }
-            p {
-                font-size: 16px;
-                line-height: 1.5;
-                color: #8b949e;
-                margin-bottom: 30px;
-            }
+            h1 { color: #58a6ff; margin-bottom: 10px; }
+            p { font-size: 16px; line-height: 1.5; color: #8b949e; margin-bottom: 30px; }
             .status-badge {
-                padding: 8px 16px;
-                background-color: #238636;
-                color: #ffffff;
-                border-radius: 20px;
-                font-size: 14px;
-                font-weight: bold;
-                display: inline-block;
-                border: 1px solid #2ea043;
+                padding: 8px 16px; background-color: #238636; color: #ffffff;
+                border-radius: 20px; font-size: 14px; font-weight: bold;
+                display: inline-block; border: 1px solid #2ea043;
             }
         </style>
     </head>
     <body>
         <div class="container">
             <h1>Axedraxos AI</h1>
-            <p>Smart AI agent for easy data analysis, charting, and fast trend forecasting on the Base network.</p>
+            <p>Smart AI agent for easy data analysis. It helps you understand datasets, make charts, and forecast trends fast on the Base network.</p>
             <div class="status-badge">🟢 System Online & Healthy (Rank 1 Configuration)</div>
         </div>
     </body>
@@ -82,7 +62,7 @@ def mcp_endpoint():
         "name": "Axedraxos Agent Server",
         "version": "1.0.0",
         "website": "https://axedraxos-api.vercel.app",
-        "description": "Smart AI agent for data analysis and forecasting on Base network"
+        "description": "Smart AI agent for easy data analysis. It helps you understand datasets, make charts, and forecast trends fast on the Base network."
     }
     tools = [
         {"name": "data_analysis", "description": "Tool for data analysis", "inputSchema": {"type": "object","properties": {}}},
@@ -100,7 +80,7 @@ def mcp_endpoint():
             "serverInfo": server_info,
             "tools": tools,
             "prompts": prompts,
-            "resources": []
+            "resources": [] 
         })
 
     req_data = request.get_json(silent=True) or {}
@@ -120,37 +100,72 @@ def mcp_endpoint():
 
     return jsonify({"jsonrpc": "2.0", "id": req_id, "result": result})
 
-# --- 3. ENDPOINT A2A (SUNTIKAN JAMES RANK 1) ---
+# --- 3. ENDPOINT A2A (METADATA SUPER LENGKAP ALA RANK 1) ---
 @app.route('/.well-known/agent-card.json', methods=['GET','OPTIONS'])
 def a2a_endpoint():
     return jsonify({
-        "id": "axedraxos",
         "name": "axedraxos",
+        "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+        "active": True,
+        "tags": [
+            "AI",
+            "autonomous",
+            "superfluid",
+            "base",
+            "crypto",
+            "data_analysis"
+        ],
+        "skills": [
+            "data_analysis",
+            "chart_generation",
+            "trend_forecasting",
+            "on_chain_analytics"
+        ],
+        "domains": [
+            "decentralized_finance",
+            "blockchain",
+            "autonomous_agents",
+            "data_science"
+        ],
+        "capabilities": [
+            "market_analysis",
+            "data_collection",
+            "predictive_modeling",
+            "reporting"
+        ],
+        "created": "2026-03-02",
+        "updatedAt": int(time.time()),
         "version": "1.0.0",
-        "description": "Smart AI agent for easy data analysis and forecasting.",
-        "website": "https://axedraxos-api.vercel.app",
-        "url": "https://axedraxos-api.vercel.app",
-        "documentation_url": "https://axedraxos-api.vercel.app",
-        "provider": {
-            "organization": "Axedraxos Labs",
-            "url": "https://axedraxos-api.vercel.app"
-        },
-        # Registrasi On-chain untuk mengelabui Crawler
+        "description": "Axedraxos is a smart AI agent for easy data analysis. It helps you understand datasets, make charts, and forecast trends fast on the Base network",
+        "services": [
+            {
+                "name": "MCP",
+                "version": "2025-06-18",
+                "endpoint": "https://axedraxos-api.vercel.app/mcp",
+                "transport": "http"
+            },
+            {
+                "name": "A2A",
+                "version": "0.3.0",
+                "endpoint": "https://axedraxos-api.vercel.app/.well-known/agent-card.json",
+                "transport": "http"
+            }
+        ],
         "registrations": [
             {
-                "agentId": 22185,
+                "address": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+                "agentId": "22185",
+                "chainId": 8453,
                 "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
             }
         ],
-        "supportedTrust": ["reputation", "tee-attestation"],
-        "skills": [
-            {"name": "Text Generation","description": "Generate text","category": "natural_language_processing/natural_language_generation/text_generation"},
-            {"name": "Workflow Automation","description": "Automate tasks","category": "tool_interaction/automation/workflow_automation"},
-            {"name": "Search","description": "Search info","category": "natural_language_processing/information_retrieval_synthesis/search"}
+        "supportedTrusts": [
+            "reputation",
+            "tee-attestation"
         ]
     })
 
-# --- 4. ENDPOINT OASF (BIARKAN ADA DI CODE, DIHAPUS DI METADATA) ---
+# --- 4. ENDPOINT OASF ---
 @app.route('/oasf', methods=['GET','OPTIONS'])
 def oasf_endpoint():
     return jsonify({
