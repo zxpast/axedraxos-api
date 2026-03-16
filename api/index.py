@@ -100,14 +100,15 @@ def mcp_endpoint():
 
     return jsonify({"jsonrpc": "2.0", "id": req_id, "result": result})
 
-# --- 3. ENDPOINT A2A (METADATA DOUBLE KILL + X402) ---
+# --- 3. ENDPOINT A2A (METADATA PERFECT) ---
 @app.route('/.well-known/agent-card.json', methods=['GET','OPTIONS'])
 def a2a_endpoint():
     return jsonify({
         "name": "axedraxos",
         "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
         "active": True,
-        "x402support": True, # <-- INI DIA SUNTIKAN DOUBLE KILL-NYA
+        "x402support": True,
+        "image": "https://blob.8004scan.app/b7597dafb29bcf15b6fec7bcdbe62e88f59032742e587a42889c831c1ab615c5.jpg", # <-- INI KUNCI COMPLIANCE NAIK
         "tags": [
             "AI",
             "autonomous",
